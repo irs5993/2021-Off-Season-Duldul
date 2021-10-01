@@ -8,7 +8,6 @@ import frc.robot.Constants;
 
 public class ClimbSubsystem extends MotorSubsystemBase {
   public ClimbSubsystem() {
-    //FIXME: Add motor ports
     super(Constants.Ports.Climb.LEFT, Constants.Ports.Climb.RIGHT);
   }
 }
