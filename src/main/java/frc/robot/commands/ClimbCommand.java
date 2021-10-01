@@ -9,7 +9,7 @@ import frc.robot.subsystems.ClimbSubsystem;
 
 public class ClimbCommand extends CommandBase {
   private final ClimbSubsystem m_climbSubsystem;
-
+  
   /** Creates a new ClimbCommand. */
   public ClimbCommand(ClimbSubsystem climbSubsystem) {
     m_climbSubsystem = climbSubsystem;
