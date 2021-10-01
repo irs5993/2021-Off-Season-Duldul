@@ -4,11 +4,9 @@
 
 package frc.robot.subsystems;
 
-import frc.robot.Constants;
-
-public class ClimbSubsystem extends MotorSubsystemBase {
-  public ClimbSubsystem() {
+public class ShootSubsystem extends MotorSubsystemBase {
+  public ShootSubsystem() {
     //FIXME: Add motor ports
-    super(Constants.Ports.Climb.LEFT, Constants.Ports.Climb.RIGHT);
+    super(-1, -1);
   }
 }
