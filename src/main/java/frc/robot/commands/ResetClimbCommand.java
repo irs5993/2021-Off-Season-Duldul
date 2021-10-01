@@ -7,11 +7,11 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ClimbSubsystem;
 
-public class ResetCommand extends CommandBase {
+public class ResetClimbCommand extends CommandBase {
   private final ClimbSubsystem m_climbSubsystem;
 
   /** Creates a new ClimbCommand. */
-  public ResetCommand(ClimbSubsystem climbSubsystem) {
+  public ResetClimbCommand(ClimbSubsystem climbSubsystem) {
     m_climbSubsystem = climbSubsystem;
     addRequirements(climbSubsystem);
   }
