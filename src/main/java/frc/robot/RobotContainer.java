@@ -9,7 +9,9 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.commands.ClimbCommand;
 import frc.robot.commands.DriveJoystickCommand;
+import frc.robot.commands.ResetClimbCommand;
 import frc.robot.subsystems.ClimbSubsystem;
 import frc.robot.subsystems.DriveTrainSubsystem;
 
@@ -31,6 +33,10 @@ public class RobotContainer {
     JoystickButton climbButton = new JoystickButton(m_stick, 4);
     JoystickButton climbSlowButton = new JoystickButton(m_stick, 6);
     JoystickButton resetClimbButton = new JoystickButton(m_stick, 12);
+
+    climbButton.whileHeld(new ClimbCommand(m_climbSubsystem, true));
+    climbSlowButton.whileHeld(new ClimbCommand(m_climbSubsystem, false));
+    resetClimbButton.whileHeld(new ResetClimbCommand(m_climbSubsystem));
 
  }
 
