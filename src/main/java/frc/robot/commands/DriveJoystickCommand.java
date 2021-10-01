@@ -29,7 +29,7 @@ public class DriveJoystickCommand extends CommandBase {
     m_driveTrain.arcadeDrive(-speed, rotation);
   }
 
-  public double map(double value, double old_min, double old_max, double new_min, double new_max) {
+  private static double map(double value, double old_min, double old_max, double new_min, double new_max) {
     return (((value - old_min) * (new_max - new_min)) / (old_max - old_min)) + new_min;
   }
 
