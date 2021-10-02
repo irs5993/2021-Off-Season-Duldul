@@ -26,7 +26,7 @@ public class DriveJoystickCommand extends CommandBase {
     double speed = m_stick.getY();
     double rotation = m_stick.getZ();
 
-    m_driveTrain.arcadeDrive(-speed, rotation);
+    m_driveTrain.arcadeDrive(speed, rotation);
   }
 
   private static double map(double value, double old_min, double old_max, double new_min, double new_max) {

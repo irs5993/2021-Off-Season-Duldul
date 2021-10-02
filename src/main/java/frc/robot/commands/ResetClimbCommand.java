@@ -4,6 +4,6 @@ import frc.robot.subsystems.ClimbSubsystem;
 
 public class ResetClimbCommand extends MotorCommandBase {
 	public ResetClimbCommand(ClimbSubsystem subsystem) {
-		super(subsystem, -0.6);
+		super(subsystem, 0.4);
 	}
 }
