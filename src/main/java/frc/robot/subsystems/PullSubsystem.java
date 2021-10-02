@@ -4,9 +4,10 @@
 
 package frc.robot.subsystems;
 
+import frc.robot.Constants;
+
 public class PullSubsystem extends MotorSubsystemBase {
   public PullSubsystem() {
-    //FIXME: Add motor ports
-    super(-1, -1);
+    super(Constants.Ports.Pull.LEFT, Constants.Ports.Pull.RIGHT);
   }
 }

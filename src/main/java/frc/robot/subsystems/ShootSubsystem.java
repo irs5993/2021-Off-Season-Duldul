@@ -4,9 +4,10 @@
 
 package frc.robot.subsystems;
 
+import frc.robot.Constants;
+
 public class ShootSubsystem extends MotorSubsystemBase {
   public ShootSubsystem() {
-    //FIXME: Add motor ports
-    super(-1, -1);
+    super(Constants.Ports.Shoot.LEFT, Constants.Ports.Shoot.RIGHT);
   }
 }
