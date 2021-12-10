@@ -23,7 +23,26 @@ public final class Constants {
 			public static final int RIGHT = 7;
 		}
 	}
-	public static class JoystickButtons {
 
+	public static class JoystickButtons {
+		public static class Pull {
+			public static final int NORMAL = 3;
+			public static final int REVERSE = 5;
+			
+			public static final int NORMAL_FAST = 8;
+			public static final int REVERSE_FAST = 7;
+
+			public static final int PREVENT_JAM = 10;
+		}
+
+		public static class Climb {
+			public static final int NORMAL = 4;
+			public static final int SLOW = 6;
+			public static final int RESET = 12;
+		}
+
+		public static class Shoot {
+			public static final int NORMAL = 1;
+		}
 	}
 }

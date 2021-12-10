@@ -11,15 +11,9 @@ public class MotorSubsystemBase extends SubsystemBase {
   private final PWMVictorSPX m_leftMotor;
   private final PWMVictorSPX m_rightMotor;
 
-  /** Creates a new PullSubsystem. */
   public MotorSubsystemBase(int leftMotor, int rightMotor) {
     m_leftMotor = new PWMVictorSPX(leftMotor);
     m_rightMotor = new PWMVictorSPX(rightMotor);
-  }
-
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
   }
 
   public void setSpeed(double speed) {

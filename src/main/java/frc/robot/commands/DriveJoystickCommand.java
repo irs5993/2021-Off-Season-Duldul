@@ -20,15 +20,27 @@ public class DriveJoystickCommand extends CommandBase {
 
   @Override
   public void execute() {
-    double slider = m_stick.getRawAxis(0);
-    double multiplier = map(slider, 0, 1, 0.3, 1);
+    // Reading controller values
+    double slider = m_stick.getRawAxis(3);
+    int POV = m_stick.getPOV(0);
 
-    double speed = m_stick.getY();
-    double rotation = m_stick.getZ();
+    double multiplier = map(slider, -1, 1, 1, 0.3);
+    double speed = m_stick.getY() * multiplier;
+    double rotation = m_stick.getZ() * multiplier;
+
+    // Minimal adjustments using the POV on the controller    
+    if (POV != -1) {
+      if (POV > 0 && POV < 180) {
+        rotation = 0.55;
+      } else if (POV > 180 && POV < 360) {
+        rotation = -0.55;
+      }
+    }
 
     m_driveTrain.arcadeDrive(speed, rotation);
   }
 
+  // Mapping function to change the range of a value while keeping the ratio 
   private static double map(double value, double old_min, double old_max, double new_min, double new_max) {
     return (((value - old_min) * (new_max - new_min)) / (old_max - old_min)) + new_min;
   }
