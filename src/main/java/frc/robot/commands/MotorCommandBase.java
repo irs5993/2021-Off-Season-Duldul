@@ -15,17 +15,19 @@ public class MotorCommandBase extends CommandBase {
   private final double m_speed;
 
   private final boolean isAutonomous;
-  private final double m_command_duration;
+  private double m_command_duration;
 
   public MotorCommandBase(MotorSubsystemBase speedSubsystem, double speed, double duration) {
-    isAutonomous = duration <= 0;
+    isAutonomous = duration > 0;
     if (isAutonomous) {
       m_timer = new Timer();
+      m_command_duration = duration;
     }
+    
 
     m_speedSubsystem = speedSubsystem;
     m_speed = speed;
-    m_command_duration = duration;
+   
     addRequirements(m_speedSubsystem);
   }
 
@@ -49,6 +51,10 @@ public class MotorCommandBase extends CommandBase {
 
   @Override
   public boolean isFinished() {
-    return isAutonomous ? m_timer.hasElapsed(m_command_duration) : false;
+    if (isAutonomous) {
+      return m_timer.hasElapsed(m_command_duration);
+    } else {
+      return false;
+    }
   }
 }

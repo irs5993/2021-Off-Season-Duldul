@@ -76,11 +76,11 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     return new SequentialCommandGroup(
       new ParallelCommandGroup(
-        new ShootCommand(m_shootSubsystem, 1, 8),
-        new SequentialCommandGroup(new WaitCommand(3.5), new PullCommand(m_pullSubsystem, -0.7, 3.5))
+        new ShootCommand(m_shootSubsystem, 0.6, 8),
+        new SequentialCommandGroup(new WaitCommand(3.5), new PullCommand(m_pullSubsystem, 0.2, 3))
       ),
       new WaitCommand(1.5), 
-      new DriveManualCommand(m_driveTrainSubsystem, new ChasisControl(0.5, 0, 2))
+      new DriveManualCommand(m_driveTrainSubsystem, new ChasisControl(0.5, 0, 2.5))
     
     );
   }
