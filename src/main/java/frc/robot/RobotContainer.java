@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.commands.AutoIntake;
 import frc.robot.commands.ClimbCommand;
 import frc.robot.commands.DriveJoystickCommand;
 import frc.robot.commands.DriveManualCommand;
@@ -23,6 +24,8 @@ import frc.robot.subsystems.DriveTrainSubsystem;
 import frc.robot.subsystems.PullSubsystem;
 import frc.robot.subsystems.ShootSubsystem;
 
+
+
 public class RobotContainer {
   private final DriveTrainSubsystem m_driveTrainSubsystem = new DriveTrainSubsystem();
   private final ClimbSubsystem m_climbSubsystem = new ClimbSubsystem();
@@ -33,10 +36,15 @@ public class RobotContainer {
 
   public RobotContainer() {
     configureButtonBindings();
-    CameraServer.getInstance().startAutomaticCapture();
+    CameraServer.getInstance().startAutomaticCapture(0);
+    CameraServer.getInstance().startAutomaticCapture(1);
 
     m_driveTrainSubsystem.setDefaultCommand(new DriveJoystickCommand(m_driveTrainSubsystem, m_stick));
+
+    
   }
+
+  
 
   private void configureButtonBindings() {
     // ---------------------------------------------------------------------
@@ -50,6 +58,7 @@ public class RobotContainer {
     JoystickButton preventJamming = new JoystickButton(m_stick, Constants.JoystickButtons.Pull.PREVENT_JAM);
     JoystickButton pullFastButton = new JoystickButton(m_stick, Constants.JoystickButtons.Pull.NORMAL_FAST);
     JoystickButton pullFastReverseButton = new JoystickButton(m_stick, Constants.JoystickButtons.Pull.REVERSE_FAST);
+    JoystickButton autoIntake = new JoystickButton(m_stick, 9);
     // ---------------------------------------------------------------------
 
 
@@ -70,6 +79,8 @@ public class RobotContainer {
       new PullCommand(m_pullSubsystem, 0.3, 0),
       new ShootCommand(m_shootSubsystem, -0.2, 0)
     ));
+
+    autoIntake.whileHeld(new AutoIntake(m_driveTrainSubsystem, m_pullSubsystem));
     // ---------------------------------------------------------------------
  }
  
