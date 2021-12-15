@@ -7,6 +7,7 @@ package frc.robot.commands;
 import edu.wpi.first.networktables.EntryListenerFlags;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveTrainSubsystem;
 import frc.robot.subsystems.PullSubsystem;
@@ -16,11 +17,19 @@ public class AutoIntake extends CommandBase {
   private final PullSubsystem m_pull;
 
   private NetworkTable table;
-  double[] defaultValue = new double[0];
+  double[] defaultValue = {};
+
+  private Joystick m_stick;
+  private final boolean isManual;
  
-  public AutoIntake(DriveTrainSubsystem driveTrain, PullSubsystem pull) {
+  public AutoIntake(DriveTrainSubsystem driveTrain, PullSubsystem pull, boolean manual) {
     m_driveTrain = driveTrain;
     m_pull = pull;
+
+    isManual = manual;
+    if (isManual) {
+      m_stick = new Joystick(0);
+    }    
 
     addRequirements(m_driveTrain, m_pull);
   }
@@ -40,34 +49,41 @@ public class AutoIntake extends CommandBase {
     int winner = -1;
     for(int i = 0; i < sizes.length; i++) {
       if (sizes[i] > closest) {
-        closest = sizes[i];
         winner = i;
+        closest = sizes[i];
       }
     }
 
-    
-
-    if(winner != -1) {
+    if(winner != -1 && winner <= xPositions.length - 1) {
       // There is a target
       double x = xPositions[winner];
-      double y = yPositions[winner];
-      double size = sizes[winner];
-
-      double xSpeed = 0.6;
+    
       double yRotation = 0;
+      double xSpeed = isManual ? m_stick.getY() : 0.7;
 
       x = map(x, 0, 160, -80, 80);
-      yRotation = map(x, -80, 80, -0.8, 0.8);
+      yRotation = map(x, -80, 80, -0.9, 0.9);
 
-      m_pull.setSpeed(0.5);
+      if (yRotation < 0) {
+        yRotation = Math.min(yRotation, -0.45);
+      } else {
+        yRotation = Math.max(yRotation, 0.45);
+      }
+
+      if (!isManual) {
+        m_pull.setSpeed(0.36);
+      }
+
       m_driveTrain.arcadeDrive(xSpeed, yRotation);
 
-      
-      
     } else {
-      m_pull.setSpeed(0);
-      m_driveTrain.arcadeDrive(0, 0);
-      
+      if (!isManual) {
+        m_driveTrain.arcadeDrive(0.65, 0);   
+        m_pull.setSpeed(0.36);
+      } else {
+        m_pull.setSpeed(0);
+
+      }
     }
   }
 

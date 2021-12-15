@@ -78,21 +78,33 @@ public class RobotContainer {
     preventJamming.whileHeld(new ParallelCommandGroup(
       new PullCommand(m_pullSubsystem, 0.3, 0),
       new ShootCommand(m_shootSubsystem, -0.2, 0)
-    ));
+    )); 
 
-    autoIntake.whileHeld(new AutoIntake(m_driveTrainSubsystem, m_pullSubsystem));
+    autoIntake.whileHeld(new AutoIntake(m_driveTrainSubsystem, m_pullSubsystem, true));
     // ---------------------------------------------------------------------
  }
  
   public Command getAutonomousCommand() {
+    // -1 ileri, 1 geri
     return new SequentialCommandGroup(
-      new ParallelCommandGroup(
-        new ShootCommand(m_shootSubsystem, 0.6, 8),
-        new SequentialCommandGroup(new WaitCommand(3.5), new PullCommand(m_pullSubsystem, 0.2, 3))
+        new ParallelCommandGroup(
+          new SequentialCommandGroup(
+            new DriveManualCommand(m_driveTrainSubsystem, new ChasisControl(1, 0, 0.5)),
+            new DriveManualCommand(m_driveTrainSubsystem, new ChasisControl(-1, 0, 0.4))
+        ),
+
+        new ParallelCommandGroup(
+          new ShootCommand(m_shootSubsystem, 0.6, 8),
+
+          new SequentialCommandGroup(
+            new WaitCommand(3.5), 
+            new PullCommand(m_pullSubsystem, 0.24, 3.5)
+          )
+        )
+        
       ),
-      new WaitCommand(1.5), 
-      new DriveManualCommand(m_driveTrainSubsystem, new ChasisControl(0.5, 0, 2.5))
       
+      new AutoIntake(m_driveTrainSubsystem, m_pullSubsystem, false)
     );
   }
 }
