@@ -48,36 +48,38 @@ public class AutoIntake extends CommandBase {
     
 
     if(winner != -1) {
-
-      
       // There is a target
       double x = xPositions[winner];
       double y = yPositions[winner];
       double size = sizes[winner];
 
-      System.out.println(x);
+      double xSpeed = 0.6;
+      double yRotation = 0;
+
+      x = map(x, 0, 160, -80, 80);
+      yRotation = map(x, -80, 80, -0.8, 0.8);
+
+      m_pull.setSpeed(0.5);
+      m_driveTrain.arcadeDrive(xSpeed, yRotation);
+
       
-      double xSpeed = -0.3;
-      double ySpeed = 0;
-
-      if (x <= 80) {
-        // sola dön
-       ySpeed = -0.45;
-      } else if (x > 80) {
-        // sağa dön
-        ySpeed = -0.45;
-      }
-      m_driveTrain.arcadeDrive(xSpeed, ySpeed);
-      new PullCommand(m_pull, 0.3, 0).schedule();
-
-
+      
     } else {
+      m_pull.setSpeed(0);
       m_driveTrain.arcadeDrive(0, 0);
+      
     }
   }
 
+  private static double map(double value, double old_min, double old_max, double new_min, double new_max) {
+    return (((value - old_min) * (new_max - new_min)) / (old_max - old_min)) + new_min;
+  }
+
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    m_pull.setSpeed(0);
+    m_driveTrain.arcadeDrive(0, 0);
+  }
 
   @Override
   public boolean isFinished() {
