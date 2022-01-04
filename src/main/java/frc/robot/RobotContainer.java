@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.AutoIntake;
+import frc.robot.commands.LockTarget;
 import frc.robot.commands.ClimbCommand;
 import frc.robot.commands.DriveJoystickCommand;
 import frc.robot.commands.DriveManualCommand;
@@ -78,9 +79,11 @@ public class RobotContainer {
     preventJamming.whileHeld(new ParallelCommandGroup(
       new PullCommand(m_pullSubsystem, 0.3, 0),
       new ShootCommand(m_shootSubsystem, -0.2, 0)
-    )); 
+    ));
 
-    autoIntake.whileHeld(new AutoIntake(m_driveTrainSubsystem, m_pullSubsystem, true));
+    autoIntake.whileHeld(new LockTarget(m_driveTrainSubsystem, m_pullSubsystem, m_shootSubsystem));
+    //autoIntake.whileHeld(new AutoIntake(m_driveTrainSubsystem, m_pullSubsystem, true));
+
     // ---------------------------------------------------------------------
  }
  
