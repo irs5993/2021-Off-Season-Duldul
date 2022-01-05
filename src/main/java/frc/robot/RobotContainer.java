@@ -65,7 +65,7 @@ public class RobotContainer {
 
     // ---------------------------------------------------------------------
     // Binding Commands to Buttons
-    climbButton.whileHeld(new ClimbCommand(m_climbSubsystem, -1, 0));
+    climbButton.toggleWhenActive(new ClimbCommand(m_climbSubsystem, -1, 0));
     climbSlowButton.whileHeld(new ClimbCommand(m_climbSubsystem, -0.5, 0));
 
     pullButton.whileHeld(new PullCommand(m_pullSubsystem, -0.3, 0));
