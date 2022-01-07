@@ -38,7 +38,7 @@ public class RobotContainer {
   public RobotContainer() {
     configureButtonBindings();
     CameraServer.getInstance().startAutomaticCapture(0);
-    CameraServer.getInstance().startAutomaticCapture(1);
+    //CameraServer.getInstance().startAutomaticCapture(1);
 
     m_driveTrainSubsystem.setDefaultCommand(new DriveJoystickCommand(m_driveTrainSubsystem, m_stick));
 
@@ -59,14 +59,15 @@ public class RobotContainer {
     JoystickButton preventJamming = new JoystickButton(m_stick, Constants.JoystickButtons.Pull.PREVENT_JAM);
     JoystickButton pullFastButton = new JoystickButton(m_stick, Constants.JoystickButtons.Pull.NORMAL_FAST);
     JoystickButton pullFastReverseButton = new JoystickButton(m_stick, Constants.JoystickButtons.Pull.REVERSE_FAST);
-    JoystickButton autoIntake = new JoystickButton(m_stick, 9);
+    JoystickButton autoIntake = new JoystickButton(m_stick, 4
+    );
     // ---------------------------------------------------------------------
 
 
     // ---------------------------------------------------------------------
     // Binding Commands to Buttons
-    climbButton.toggleWhenActive(new ClimbCommand(m_climbSubsystem, -1, 0));
-    climbSlowButton.whileHeld(new ClimbCommand(m_climbSubsystem, -0.5, 0));
+    //climbButton.toggleWhenActive(new ClimbCommand(m_climbSubsystem, -1, 0));
+    climbSlowButton.toggleWhenActive(new ClimbCommand(m_climbSubsystem, -0.5, 0));
 
     pullButton.whileHeld(new PullCommand(m_pullSubsystem, -0.3, 0));
     pullReverseButton.whileHeld(new PullCommand(m_pullSubsystem, 0.3, 0));
@@ -81,7 +82,9 @@ public class RobotContainer {
       new ShootCommand(m_shootSubsystem, -0.2, 0)
     ));
 
+    autoIntake.whileHeld(new ClimbCommand(m_climbSubsystem, -1, 0));
     autoIntake.whileHeld(new LockTarget(m_driveTrainSubsystem, m_pullSubsystem, m_shootSubsystem));
+    
     //autoIntake.whileHeld(new AutoIntake(m_driveTrainSubsystem, m_pullSubsystem, true));
 
     // ---------------------------------------------------------------------

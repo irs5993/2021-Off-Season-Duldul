@@ -27,10 +27,10 @@ public final class Constants {
 	public static class JoystickButtons {
 		public static class Pull {
 			public static final int NORMAL = 3;
-			public static final int REVERSE = 5;
+			public static final int REVERSE = 7;
 			
 			public static final int NORMAL_FAST = 8;
-			public static final int REVERSE_FAST = 7;
+			public static final int REVERSE_FAST = 5;
 
 			public static final int PREVENT_JAM = 10;
 		}
