@@ -83,7 +83,7 @@ public class RobotContainer {
     ));
 
     autoIntake.whileHeld(new ClimbCommand(m_climbSubsystem, -1, 0));
-    autoIntake.whileHeld(new LockTarget(m_driveTrainSubsystem, m_pullSubsystem, m_shootSubsystem));
+    autoIntake.whenHeld(new LockTarget(m_driveTrainSubsystem, m_pullSubsystem, m_shootSubsystem));
     
     //autoIntake.whileHeld(new AutoIntake(m_driveTrainSubsystem, m_pullSubsystem, true));
 
