@@ -8,9 +8,7 @@ import edu.wpi.first.networktables.EntryListenerFlags;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ScheduleCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -33,10 +31,6 @@ public class LockTarget extends CommandBase {
   private final int ImageWidthPixels = 160;
   private final int CenterAllowance = 20;
 
-  private final int YMin = 55;
-  private final int YMax = 80;
-  private final int YDesired = 60;
-
   public LockTarget(DriveTrainSubsystem driveTrain, PullSubsystem pull, ShootSubsystem shoot) {
     m_driveTrain = driveTrain;
     m_pull = pull;
@@ -58,21 +52,21 @@ public class LockTarget extends CommandBase {
 
     // Target is clear
     if (xPositions.length == 1) {
-        SmartDashboard.putBoolean("Target Found", true);
         double x = xPositions[0];
-        double y = yPositions[0];
         x = map(x, 0, ImageWidthPixels, -ImageWidthPixels/2, ImageWidthPixels/2);
 
         double yRotation = 0;
-        double xSpeed = 0;
-
         if (x >= -CenterAllowance && x <= CenterAllowance) {
-          // Locked to target, stop the rotation.
-          if (y > YDesired) {
-            xSpeed = map(y, YDesired, YMax, -0.8, -0.35);
-          } else if (y <= YDesired) {
-            xSpeed = map(y, YMin, YDesired, 0.35, 0.8);
-          }
+            // Locked to target, stop the rotation.
+            new ParallelCommandGroup(
+                new ShootCommand(m_shoot, 0.6, 8),
+
+                new SequentialCommandGroup(
+                    new WaitCommand(3.5), 
+                    new PullCommand(m_pull, 0.24, 3.5)
+                )
+            );
+            //new ScheduleCommand(new PullCommand(m_pull, 0.24, 0));
         } else {
             // Yet to be locked on target, centering...
             yRotation = map(x, -ImageWidthPixels/2, ImageWidthPixels/2, -MaxRotationVoltage, MaxRotationVoltage);
@@ -83,12 +77,7 @@ public class LockTarget extends CommandBase {
             }
         }
 
-        SmartDashboard.putNumber("X Speed", xSpeed);
-        SmartDashboard.putNumber("Y Rotation", yRotation);
-
-        m_driveTrain.arcadeDrive(xSpeed, yRotation);
-    } else {
-      SmartDashboard.putBoolean("Target Found", false);
+        m_driveTrain.arcadeDrive(0, yRotation);
     }
   }
 
@@ -100,15 +89,6 @@ public class LockTarget extends CommandBase {
   public void end(boolean interrupted) {
     m_pull.setSpeed(0);
     m_driveTrain.arcadeDrive(0, 0);
-
-    CommandScheduler.getInstance().schedule(new ParallelCommandGroup(
-        new ShootCommand(m_shoot, 0.6, 8),
-
-        new SequentialCommandGroup(
-          new WaitCommand(3.5), 
-          new PullCommand(m_pull, 0.24, 3.5)
-        )
-    ));
   }
 
   @Override

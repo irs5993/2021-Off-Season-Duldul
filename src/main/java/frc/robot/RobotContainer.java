@@ -81,7 +81,7 @@ public class RobotContainer {
       new ShootCommand(m_shootSubsystem, -0.2, 0)
     ));
 
-    autoIntake.whenHeld(new LockTarget(m_driveTrainSubsystem, m_pullSubsystem, m_shootSubsystem));
+    autoIntake.whileHeld(new LockTarget(m_driveTrainSubsystem, m_pullSubsystem, m_shootSubsystem));
     //autoIntake.whileHeld(new AutoIntake(m_driveTrainSubsystem, m_pullSubsystem, true));
 
     // ---------------------------------------------------------------------
